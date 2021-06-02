@@ -1,0 +1,90 @@
+public class Main {
+
+    public static void main(String[] args) {
+        int low = 0;
+        int high = args.length - 1;
+        int b = 0;
+        int lntg = args.length;
+        int[] spisok;
+        int biba = 0;
+        spisok = new int[args.length];
+        for (b = 0; b<lntg; b++){
+            int a = 0;
+            int o = 0;
+            char[] str = args[b].toCharArray();
+            int lntgch = str.length;
+            int index = 0;
+            for (int k = 0; k<lntgch; k++){
+                if (str[k]<=57 && str[k]>=48){
+                    a = k;
+                    while (str[k]<=57 && str[k]>=48){
+                        if(k<str.length-1){
+                            k++;
+                            o = k-1;
+                        } else {
+                            o=k;
+                            break;
+                        }
+                    }
+                    if (o != a){
+                        for (int sch = a; a<=o; a++){
+                            biba = str[a]-48;
+                            index = index*10+biba;
+                        }
+                    } else {
+                        biba = str[a]-48;
+                        index = biba;
+                    }
+                    spisok[b]=index;
+                    args[b] = args[b].replaceAll("[0123456789]", "");
+                }
+            }
+
+        }
+        quickSort(spisok, args, low, high );
+        for (int i = 0; i < args.length-1; i++) {
+            System.out.println(args[i]);
+        }
+            System.out.println(args[args.length-1]);
+
+    }
+    public static void quickSort(int[] array, String[] array2, int low, int high) {
+        if (array.length == 0)
+            return;//завершить выполнение если длина массива равна 0
+
+        if (low >= high)
+            return;//завершить выполнение если уже нечего делить
+
+        // выбрать опорный элемент
+        int middle = low + (high - low) / 2;
+        int opora = array[middle];
+
+        // разделить на подмассивы, который больше и меньше опорного элемента
+        int i = low, j = high;
+        while (i <= j) {
+            while (array[i] < opora) {
+                i++;
+            }
+
+            while (array[j] > opora) {
+                j--;
+            }
+
+            if (i <= j) {
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+                String temp2 = array2[i];
+                array2[i] = array2[j];
+                array2[j] = temp2;
+                i++;
+                j--;
+            }
+        }
+        if (low < j)
+            quickSort(array, array2, low, j);
+
+        if (high > i)
+            quickSort(array, array2, i, high);
+    }
+}
